@@ -1,18 +1,94 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <section class="section">
+    <div class="container">
+      <h1 class="title is-3">
+        Welcome to the <b>House of DIY</b> 👋
+      </h1>
+      <p class="subtitle">
+        🛠 The tools <b>data</b> has been generated with ChatGPT.<br>
+        📷 The <b>images</b> are drawn from the Pexels API (with the tools names as query).
+
+      </p>
+      <p class="subtitle">
+      </p>
+
+      <hr>
+
+      <div class="box">
+        <h3 class="title is-5">Filters</h3>
+        <div class="field is-grouped">
+          <button class="control button is-primary" :class="{ 'is-light': !filtering }" @click="toggleFilter()">
+            See only available products
+          </button>
+          <div class="control">
+            <input class="input" type="text" placeholder="Search for..." v-model="query">
+          </div>
+        </div>
+      </div>
+
+
+      <div class="gallery">
+        <ToolElement v-for="t in filteredArray" :key="t.reference" :name="t.name" :price="t.price"
+          :reference="t.reference" :availability="t.availability" :description="t.description" />
+        
+      </div>
+      <div v-if="filteredArray.length == 0">
+          <div class="notification is-danger">
+            <h4 class="title is-5">Screw it! 😣</h4>
+            <p>We're so sorry, but your search didn't match any of our products.</p>
+          </div>
+        </div>
+
+    </div>
+  </section>
 </template>
 
 <script>
+import tools from '../assets/data.js'
+
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import ToolElement from '@/components/Tool.vue'
 
 export default {
   name: 'HomeView',
   components: {
-    HelloWorld
+    ToolElement
+  },
+  data: function () {
+    return {
+      db: tools,
+      filtering: false,
+      query: ''
+    }
+  },
+  methods: {
+    toggleFilter() {
+      this.filtering = !this.filtering
+    }
+  },
+  computed: {
+    filteredArray() {
+      let filtered = this.db
+      if (this.filtering) {
+        filtered = filtered.filter(e => e.availability == 'In stock')
+      }
+      if (this.query != '') {
+        filtered = filtered.filter(e => e.name.includes(this.query))
+      }
+      return filtered
+    }
   }
 }
 </script>
+
+<style scoped lang="scss">
+.section {
+  width: 60%;
+  margin: auto;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}</style>
