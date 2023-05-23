@@ -73,7 +73,7 @@ export default {
         filtered = filtered.filter(e => e.availability == 'In stock')
       }
       if (this.query != '') {
-        filtered = filtered.filter(e => e.name.includes(this.query))
+        filtered = filtered.filter(e => e.name.toUpperCase().includes(this.query.toUpperCase()))
       }
       return filtered
     }
