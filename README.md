@@ -1,4 +1,6 @@
-# entrepot
+# House of DIY
+
+Available here : https://houseofdiy.netlify.app/
 
 ## Project setup
 ```
