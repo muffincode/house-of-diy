@@ -30,14 +30,14 @@
       <div class="gallery">
         <ToolElement v-for="t in filteredArray" :key="t.reference" :name="t.name" :price="t.price"
           :reference="t.reference" :availability="t.availability" :description="t.description" />
-        
+
       </div>
       <div v-if="filteredArray.length == 0">
-          <div class="notification is-danger">
-            <h4 class="title is-5">Screw it! 😣</h4>
-            <p>We're so sorry, but your search didn't match any of our products.</p>
-          </div>
+        <div class="notification is-danger">
+          <h4 class="title is-5">Screw it! 😣</h4>
+          <p>We're so sorry, but your search didn't match any of our products.</p>
         </div>
+      </div>
 
     </div>
   </section>
@@ -82,13 +82,33 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.section {
-  width: 60%;
-  margin: auto;
+@media (min-width: 1281px) {
+  .section {
+    width: 60%;
+    margin: auto;
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+    }
+  }
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+  
+.field.is-grouped {
+  display: block;
+  .control:first-child{
+    margin-bottom: 1em;
+  }
 }
 
 .gallery {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
-}</style>
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      gap: 30px;
+    }
+  
+}
+</style>
