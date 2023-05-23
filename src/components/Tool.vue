@@ -1,5 +1,8 @@
 <template>
   <article class="card">
+    <div class="overlay has-background-success has-text-primary-light animate__animated" v-if="animateThanks">
+      Thanks!
+    </div>
     <div class="card-image">
       <figure class="image is-4by3">
         <img :src="imgUrl" alt="Placeholder image">
@@ -15,7 +18,7 @@
         </p>
         <p>{{ description }}</p>
 
-        <button class="button" :class="{ 'is-success': available }" :disabled="!available">
+        <button class="button" :class="{ 'is-success': available }" :disabled="!available" @click="thanks()">
           Buy for {{ price }}
         </button>
       </div>
@@ -31,7 +34,8 @@ export default {
   name: 'ToolElement',
   data: function () {
     return {
-      imgUrl: 'https://bulma.io/images/placeholders/1280x960.png'
+      imgUrl: 'https://bulma.io/images/placeholders/1280x960.png',
+      animateThanks: false
     }
   },
   props: {
@@ -48,6 +52,12 @@ export default {
   },
   computed: {
     available() { return this.availability == 'In stock' }
+  },
+  methods: {
+    thanks() {
+      this.animateThanks = true
+      setTimeout(() => { this.animateThanks = false}, 1500)
+    }
   }
 
 }
@@ -55,11 +65,25 @@ export default {
 
 <style scoped lang="scss">
 article {
+  position: relative;
   transition: all 200ms linear;
 
   &:hover {
     transform: scale(1.02);
-    box-shadow: 0 0 40px rgba(0,0,0,0.2);
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
+  }
+
+  .overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 300%;
+    font-weight: 100;
+    transition: 2s all linear;
   }
 
 }
