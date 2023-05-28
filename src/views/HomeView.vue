@@ -20,6 +20,11 @@
           <div class="control">
             <input class="input" type="text" placeholder="Search for..." v-model="query">
           </div>
+          <div class="select">
+            <select name="" id="" @change="categoryFilter($event)">
+              <option v-for="cat in categories" :key="cat" :value="cat">{{ cat }}</option>
+            </select>
+          </div>
         </div>
       </div>
 
@@ -56,13 +61,23 @@ export default {
     return {
       db: tools,
       filtering: false,
-      query: ''
+      query: '',
+      categories: [],
+      currentCategory: ''
     }
   },
   methods: {
     toggleFilter() {
       this.filtering = !this.filtering
+    },
+    categoryFilter(event) {
+      this.currentCategory = event.target.value
     }
+  },
+  mounted: function () {
+    this.categories = [...new Set(this.db.map(product => product.category))]
+    this.categories.unshift('Select a category')
+
   },
   computed: {
     filteredArray() {
@@ -73,8 +88,11 @@ export default {
       if (this.query != '') {
         filtered = filtered.filter(e => e.name.toUpperCase().includes(this.query.toUpperCase()) || e.category.toUpperCase().includes(this.query.toUpperCase()))
       }
+      if (this.currentCategory != '' && this.currentCategory != 'Select a category') {
+        filtered = filtered.filter(e => e.category == this.currentCategory)
+      }
       return filtered
-    }
+    },
   }
 }
 </script>
