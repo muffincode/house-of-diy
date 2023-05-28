@@ -7,9 +7,6 @@
       <p class="subtitle">
         🛠 The tools <b>data</b> has been generated with ChatGPT.<br>
         📷 The <b>images</b> are drawn from the Pexels API (with the tools names as query).
-
-      </p>
-      <p class="subtitle">
       </p>
 
       <hr>
@@ -28,8 +25,9 @@
 
 
       <div class="gallery">
-        <ToolElement v-for="t in filteredArray" :key="t.reference" :name="t.name" :price="t.price"
-          :reference="t.reference" :availability="t.availability" :description="t.description" />
+        <ToolElement v-for="t in filteredArray" :key="t.reference" 
+        :name="t.name" :price="t.price"
+          :reference="t.reference" :availability="t.availability" :description="t.description" :category="t.category" />
 
       </div>
       <div v-if="filteredArray.length == 0">
@@ -73,7 +71,7 @@ export default {
         filtered = filtered.filter(e => e.availability == 'In stock')
       }
       if (this.query != '') {
-        filtered = filtered.filter(e => e.name.toUpperCase().includes(this.query.toUpperCase()))
+        filtered = filtered.filter(e => e.name.toUpperCase().includes(this.query.toUpperCase()) || e.category.toUpperCase().includes(this.query.toUpperCase()))
       }
       return filtered
     }
@@ -94,7 +92,18 @@ export default {
     }
   }
 }
+@media (min-width: 481px) and (max-width: 1280px) {
+  .section {
+    width: 80%;
+    margin: auto;
 
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+    }
+  }
+}
 @media (min-width: 320px) and (max-width: 480px) {
   
 .field.is-grouped {

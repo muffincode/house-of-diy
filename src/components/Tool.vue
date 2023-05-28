@@ -11,16 +11,27 @@
     <div class="card-content">
       <div class="content">
         <p class="title is-4">{{ name }}</p>
+        <span class="tag is-info">{{ category }}</span>
+
+        <p>{{ description }}</p>
+
         <p class="subtitle is-6">
           {{ availability }}
           <span v-if="available">🟢</span>
           <span v-else>🔴</span>
         </p>
-        <p>{{ description }}</p>
 
-        <button class="button" :class="{ 'is-success': available }" :disabled="!available" @click="thanks()">
-          Buy for {{ price }}
-        </button>
+        <div class="buttons">
+          <button class="button" :class="{ 'is-info': available }" :disabled="!available"
+            @click="() => { goToProduct(reference) }">
+            See more
+          </button>
+
+          <button class="button" :class="{ 'is-success': available }" :disabled="!available" @click="thanks()">
+            Buy for {{ price }}
+          </button>
+        </div>
+
       </div>
     </div>
   </article>
@@ -43,7 +54,8 @@ export default {
     price: String,
     reference: String,
     availability: String,
-    description: String
+    description: String,
+    category: String
   },
   mounted() {
     client.photos.search({ query: this.name, per_page: 1 }).then(photos => {
@@ -56,7 +68,10 @@ export default {
   methods: {
     thanks() {
       this.animateThanks = true
-      setTimeout(() => { this.animateThanks = false}, 1500)
+      setTimeout(() => { this.animateThanks = false }, 1500)
+    },
+    goToProduct(id) {
+      this.$router.push(`/product/${id}`)
     }
   }
 
@@ -71,6 +86,14 @@ article {
   &:hover {
     transform: scale(1.02);
     box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
+  }
+
+  .title {
+    margin-bottom: 0.5em;
+  }
+
+  .tag {
+    margin-bottom: 1em;
   }
 
   .overlay {
