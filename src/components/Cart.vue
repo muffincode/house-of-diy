@@ -66,4 +66,17 @@ export default {
         width: 250px;
     }
 }
+
+@media (max-width: 1281px) {
+    .box {
+        right: 0;
+        text-align: right;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        ul {
+            list-style: none;
+        }
+    }
+}
 </style>
