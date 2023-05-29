@@ -1,6 +1,9 @@
 <template>
   <section class="section">
+    <CartElement></CartElement>
+
     <div class="container">
+
       <h1 class="title is-3">
         Welcome to the <b>House of DIY</b> 👋
       </h1>
@@ -49,13 +52,14 @@
 <script>
 import tools from '../assets/data.js'
 
-// @ is an alias to /src
 import ToolElement from '@/components/Tool.vue'
+import CartElement from '@/components/Cart.vue'
 
 export default {
   name: 'HomeView',
   components: {
-    ToolElement
+    ToolElement,
+    CartElement
   },
   data: function () {
     return {
@@ -63,7 +67,7 @@ export default {
       filtering: false,
       query: '',
       categories: [],
-      currentCategory: ''
+      currentCategory: '',
     }
   },
   methods: {
@@ -77,7 +81,6 @@ export default {
   mounted: function () {
     this.categories = [...new Set(this.db.map(product => product.category))]
     this.categories.unshift('Select a category')
-
   },
   computed: {
     filteredArray() {

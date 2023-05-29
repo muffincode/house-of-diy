@@ -1,7 +1,7 @@
 <template>
   <article class="card">
     <div class="overlay has-background-success has-text-primary-light animate__animated" v-if="animateThanks">
-      Thanks!
+      🛒<br>Added to cart
     </div>
     <div class="card-image">
       <figure class="image is-4by3">
@@ -28,7 +28,7 @@
           </button>
 
           <button class="button" :class="{ 'is-success': available }" :disabled="!available" @click="thanks()">
-            Buy for {{ price }}
+            Add to cart ({{ price }})
           </button>
         </div>
 
@@ -38,6 +38,8 @@
 </template>
 
 <script>
+import { useCartStore } from '@/stores/cart'
+
 import { createClient } from 'pexels'
 const client = createClient('TAU91VsC78Fc7jXwghtIHI46WkdPKLk1r3NivySGJQJrDeq4VMd8MoxN')
 
@@ -67,6 +69,8 @@ export default {
   },
   methods: {
     thanks() {
+      const store = useCartStore()
+      store.addProduct({ name: this.name, price: this.price }) 
       this.animateThanks = true
       setTimeout(() => { this.animateThanks = false }, 1500)
     },
@@ -101,6 +105,7 @@ article {
     width: 100%;
     height: 100%;
     z-index: 10;
+    text-align: center;
     display: flex;
     align-items: center;
     justify-content: center;

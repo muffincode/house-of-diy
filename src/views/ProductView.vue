@@ -1,7 +1,7 @@
 <template>
   <section class="section">
     <div class="container">
-      <a href="/">Back</a>
+      <RouterLink to="/">Back</RouterLink>
 
       <hr>
 
@@ -14,7 +14,7 @@
 
       <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Necessitatibus, placeat cumque quod, asperiores repudiandae dolorem praesentium perferendis libero eveniet, suscipit eaque vel. Tenetur provident quasi numquam nemo consequuntur voluptas. Itaque!</p>
 
-      <button class="button" :class="{ 'is-success': available }" :disabled="!available">
+      <button class="button" :class="{ 'is-success': available }" :disabled="!available" @click="add">
           Buy for {{ p.price }}
         </button>
 
@@ -24,6 +24,7 @@
 
 <script>
 import tools from '../assets/data.js'
+import { useCartStore } from '@/stores/cart'
 
 export default {
   name: 'ProductView',
@@ -41,6 +42,10 @@ export default {
     available() { return this.p.availability == 'In stock' }
   },
   methods: {
+    add() {
+      const store = useCartStore()
+      store.addProduct({ name: this.p.name, price: this.p.price }) 
+    }
   }
 }
 </script>
